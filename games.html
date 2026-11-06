@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Games · The Action Word Adventure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1d3a8a; --pink:#f0408f; --blue:#2f9be6; --yellow:#f6b81a; --purple:#7b4bc8; --green:#4cb04a; --orange:#f58a1f;
+  --wood:#b98650; --wood-dark:#7a4a22; --paper:#fff8e6; --cream:#fffbf2;
+  --pink-t:#fbd6e6; --blue-t:#cfe8fa; --yellow-t:#fcefb8; --purple-t:#ddd2f6; --green-t:#d3efc4;
+  --r:32px;
+  --lift:0 6px 0 rgba(29,58,138,.14);
+  --rainbow:linear-gradient(90deg,var(--pink),var(--orange),var(--green),var(--blue),var(--purple));
+  --font-head:"Baloo 2","Trebuchet MS",sans-serif;
+  --font-hand:"Patrick Hand","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme:dark){ :root{ color-scheme:light; } }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;height:100%}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{font-family:var(--font-hand);font-size:1.15rem;line-height:1.4;color:var(--navy);background:var(--cream);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:4px solid var(--navy);outline-offset:3px}
+h1,h2,h3{font-family:var(--font-head);line-height:1.05}
+.rainbow{background:var(--rainbow);-webkit-background-clip:text;background-clip:text;color:transparent}
+.star{display:inline-block;width:1em;height:1em;background:var(--yellow);clip-path:polygon(50% 0,62% 35%,98% 38%,70% 60%,80% 96%,50% 75%,20% 96%,30% 60%,2% 38%,38% 35%)}
+.arrow{display:inline-block;width:.9em;height:.9em;margin-left:.35em;vertical-align:-.1em;background:currentColor;clip-path:polygon(0 40%,60% 40%,60% 10%,100% 50%,60% 90%,60% 60%,0 60%)}
+.scene{position:relative;background:linear-gradient(#bfe6fb 0,#dff3d6 700px,var(--cream) 1100px);min-height:100vh}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+.sign{background:#f6dfae;border:5px solid var(--wood);border-radius:12px;box-shadow:0 5px 0 rgba(122,74,34,.35)}
+.ph{display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;font-family:var(--font-head);font-weight:700;font-size:.95rem;line-height:1.15;color:var(--navy);background:rgba(255,255,255,.55);border:3px dashed var(--navy);border-radius:var(--r)}
+.ph small{display:block;font-family:var(--font-hand);font-weight:400;font-size:.85rem;opacity:.75}
+.pic{display:block;max-width:100%;object-fit:contain;object-position:bottom}
+.ph-compass{position:absolute;right:-30px;bottom:-24px;width:64px;height:64px;border-radius:0}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;padding-top:24px}
+.logo{position:relative;padding:14px 22px;text-align:center;transform:rotate(-2deg);max-width:360px}
+.logo h1{font-size:1.9rem}
+.logo h1 span{display:block;font-size:2.5rem}
+.logo p{font-size:.95rem;margin-top:4px}
+nav{display:flex;gap:8px;flex-wrap:wrap;padding:8px 10px;background:rgba(255,255,255,.6);border-radius:999px}
+nav a{padding:6px 16px;border-radius:999px;font-family:var(--font-head);font-weight:700;transition:transform .15s}
+nav a:hover{transform:translateY(-2px)}
+nav .home{background:var(--pink);color:#fff}
+nav .l{background:var(--yellow-t)} nav .g{background:var(--purple-t)} nav .q{background:var(--green-t)} nav .a{background:var(--pink-t)}
+.cta{display:inline-block;margin-top:22px;padding:12px 30px;font-family:var(--font-head);font-weight:700;font-size:1.35rem;color:#fff3dc;background:linear-gradient(var(--wood),#9c6a38);border:4px solid var(--wood-dark);border-radius:12px;box-shadow:0 6px 0 var(--wood-dark);transform:rotate(-2deg);transition:transform .15s}
+.cta:hover{transform:rotate(-2deg) translateY(-3px)}
+.band{padding:36px 0 50px}
+.title{display:inline-block;padding:6px 40px;font-size:2rem;font-weight:800;background:#fbe9a9;border-radius:40px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px;margin-top:30px}
+.card{display:flex;flex-direction:column;align-items:center;padding:22px 18px 24px;border-radius:var(--r);box-shadow:var(--lift);transition:transform .2s}
+.card:hover{transform:translateY(-6px)}
+.card .icon{width:130px;height:110px;object-fit:contain}
+.card h3{font-size:1.8rem;margin-top:6px}
+.card p{font-size:1.05rem;margin:6px 0 16px;flex:1}
+.go{display:inline-flex;align-items:center;justify-content:center;min-width:120px;padding:6px 24px;font-family:var(--font-head);font-weight:700;font-size:1.15rem;color:#fff;border-radius:999px}
+.c1{background:var(--pink-t)} .c1 .go{background:var(--pink)}
+.c2{background:var(--blue-t)} .c2 .go{background:var(--blue)}
+.c3{background:var(--yellow-t)} .c3 .go{background:var(--yellow)}
+.c4{background:var(--purple-t)} .c4 .go{background:var(--purple)}
+.together{display:grid;grid-template-columns:220px 1fr 200px;gap:24px;align-items:center;padding:30px 34px;border-radius:var(--r);background:var(--paper);border:5px solid var(--wood);box-shadow:0 5px 0 rgba(122,74,34,.35)}
+.together h2{font-size:2.3rem}
+.together p{font-size:1.25rem;margin-top:8px;max-width:38ch}
+.books{display:flex;flex-direction:column;gap:5px}
+.books span{font-family:var(--font-head);font-weight:800;color:#fff;padding:6px 14px;border-radius:6px 12px 12px 6px;font-size:1.05rem;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.books span:nth-child(1){background:var(--pink);margin-left:6px}
+.books span:nth-child(2){background:var(--orange)}
+.books span:nth-child(3){background:var(--blue);margin-left:10px}
+.books span:nth-child(4){background:var(--green)}
+footer{position:relative;margin-top:70px;padding:44px 24px 36px;background:var(--purple);color:#fff;text-align:center}
+footer::before{content:"";position:absolute;left:0;right:0;top:-39px;height:40px;background:var(--purple);clip-path:ellipse(60% 100% at 50% 100%)}
+.foot{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap;font-family:var(--font-head);font-weight:700;font-size:1.4rem}
+@media(max-width:860px){
+  .together{grid-template-columns:1fr;text-align:center}
+  .together p{margin-inline:auto}
+  .books{max-width:200px;margin:0 auto}
+}
+@media(max-width:560px){
+  .wrap{padding:0 16px}
+  .title{font-size:1.5rem;padding:6px 24px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ── game-specific ── */
+.game-hero{text-align:center;padding:28px 0 6px}
+.game-hero h2{font-size:2.4rem;color:var(--navy)}
+.game-hero p{font-size:1.25rem;margin-top:4px;color:var(--navy);opacity:.9}
+.game-hero .badge{display:inline-block;margin-top:12px;padding:6px 22px;background:var(--yellow-t);border:3px solid var(--yellow);border-radius:999px;font-family:var(--font-head);font-weight:800;font-size:1.05rem;transform:rotate(-1.5deg)}
+.intro-card{background:var(--paper);border:4px solid var(--wood);border-radius:var(--r);box-shadow:var(--lift);padding:26px 30px;margin:22px 0}
+.intro-card h3{font-size:1.7rem;margin-bottom:8px;display:inline-block;border-bottom:3px dashed var(--wood);padding-bottom:4px}
+.intro-card p,.intro-card li{font-size:1.1rem}
+.intro-card ol{padding-left:26px;margin-top:8px}
+.intro-card li{margin:5px 0}
+.score-strip{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin:6px 0 18px}
+.score-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 22px;background:var(--purple);color:#fff;border-radius:999px;font-family:var(--font-head);font-weight:800;font-size:1.15rem;box-shadow:0 4px 0 rgba(0,0,0,.18)}
+.score-pill .num{background:#fff;color:var(--purple);border-radius:50%;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem}
+.challenge-card{background:var(--paper);border:4px solid var(--wood);border-radius:var(--r);box-shadow:var(--lift);padding:26px 30px;margin:22px 0}
+.challenge-card h3{font-size:1.6rem;margin-bottom:4px;color:var(--purple)}
+.challenge-card .challenge-label{font-family:var(--font-head);font-weight:800;font-size:.95rem;color:var(--orange);letter-spacing:.5px;text-transform:uppercase}
+.challenge-card .question{font-size:1.25rem;margin:10px 0 14px}
+.challenge-card .sentence-box{background:#fffdf0;border-left:6px solid var(--yellow);padding:12px 18px;margin:0 0 16px;border-radius:0 10px 10px 0;font-size:1.25rem;font-style:italic;color:var(--navy)}
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.opt{display:flex;align-items:center;gap:10px;padding:12px 18px;background:#fff;border:3px solid #e0d2b0;border-radius:14px;font-family:var(--font-head);font-weight:700;font-size:1.1rem;color:var(--navy);cursor:pointer;transition:transform .12s,border-color .12s,background .12s;text-align:left}
+.opt:hover{transform:translateY(-3px);border-color:var(--blue);background:var(--blue-t)}
+.opt .letter{background:var(--blue-t);color:var(--navy);border-radius:50%;min-width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:1rem}
+.opt.correct{background:var(--green-t);border-color:var(--green)}
+.opt.correct .letter{background:var(--green);color:#fff}
+.opt.wrong{background:var(--pink-t);border-color:var(--pink)}
+.opt.wrong .letter{background:var(--pink);color:#fff}
+.opt:disabled{cursor:default;opacity:.95}
+.opt:disabled:hover{transform:none}
+.feedback{margin-top:14px;padding:12px 18px;border-radius:14px;font-size:1.1rem;display:none}
+.feedback.show{display:block;animation:pop .25s ease}
+.feedback.ok{background:var(--green-t);border:3px solid var(--green)}
+.feedback.no{background:var(--pink-t);border:3px solid var(--pink)}
+.feedback strong{font-family:var(--font-head)}
+@keyframes pop{0%{transform:scale(.96);opacity:0}100%{transform:scale(1);opacity:1}}
+.btn-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:30px 0 10px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:12px 30px;font-family:var(--font-head);font-weight:700;font-size:1.2rem;color:#fff;border:none;border-radius:999px;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-3px)}
+.btn-pink{background:var(--pink)} .btn-blue{background:var(--blue)} .btn-green{background:var(--green)} .btn-purple{background:var(--purple)} .btn-orange{background:var(--orange)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.result-card{background:var(--paper);border:5px solid var(--purple);border-radius:var(--r);box-shadow:var(--lift);padding:34px 30px;margin:26px 0;text-align:center;display:none}
+.result-card.show{display:block;animation:pop .3s ease}
+.result-card h3{font-size:2.2rem;color:var(--purple)}
+.result-card .big-score{font-family:var(--font-head);font-weight:800;font-size:3.4rem;color:var(--navy);margin:6px 0}
+.result-card p{font-size:1.2rem;margin-top:6px}
+.badge-row{display:flex;justify-content:center;gap:10px;margin-top:14px;font-size:2rem}
+@media(max-width:560px){.challenge-card,.intro-card{padding:20px 16px}.game-hero h2{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<div class="scene">
+  <div class="wrap">
+    <div class="top">
+      <a class="logo sign" href="index.html" aria-label="The Action Word Adventure home">
+        <h1>The Action Word <span class="rainbow">Adventure</span></h1>
+        <p>Discover actions, build sentences, and become a Verb Explorer!</p>
+        <img class="pic ph-compass" src="images/compass.png" alt="">
+      </a>
+      <nav aria-label="Main navigation">
+        <a class="home" href="index.html">Home</a>
+        <a class="l" href="lessons.html">Lessons</a>
+        <a class="g" href="games.html">Games</a>
+        <a class="q" href="quizzes.html">Quizzes</a>
+        <a class="a" href="activities.html">Activities</a>
+      </nav>
+    </div>
+
+    <main>
+      <div class="game-hero">
+        <h2>The Action Detective</h2>
+        <p>Can You Find the Action?</p>
+        <div class="badge">Mission: Find the hidden verbs!</div>
+      </div>
+
+      <!-- A. Introduction -->
+      <div class="intro-card">
+        <h3>A. Welcome, Young Detectives!</h3>
+        <p>Your mission is to investigate different sentences and discover the hidden action words. Use your observation and reading skills to find the correct verb.</p>
+        <p style="margin-top:8px"><strong>Are you ready to solve the action-word mystery?</strong></p>
+      </div>
+
+      <!-- B. Game Instructions -->
+      <div class="intro-card">
+        <h3>B. Game Instructions</h3>
+        <ol>
+          <li>Read the given sentence.</li>
+          <li>Identify the word that shows the action.</li>
+          <li>Choose the correct answer.</li>
+          <li>Read the explanation after answering.</li>
+          <li>Collect points as you complete the challenges.</li>
+        </ol>
+      </div>
+
+      <!-- Score -->
+      <div class="score-strip" aria-live="polite">
+        <span class="score-pill">Detective Score <span class="num" id="scoreNum">0</span> / 5</span>
+      </div>
+
+      <!-- C. Challenges -->
+      <div id="challenges">
+        <!-- Challenge 1 -->
+        <div class="challenge-card" data-challenge="1" data-answer="C">
+          <div class="challenge-label">Challenge 1 · Find the Missing Action</div>
+          <h3>Which word tells what the girl is doing?</h3>
+          <div class="sentence-box">"The girl draws a beautiful flower."</div>
+          <div class="options">
+            <button class="opt" data-key="A"><span class="letter">A</span>Girl</button>
+            <button class="opt" data-key="B"><span class="letter">B</span>Beautiful</button>
+            <button class="opt" data-key="C"><span class="letter">C</span>Draws</button>
+            <button class="opt" data-key="D"><span class="letter">D</span>Flower</button>
+          </div>
+          <div class="feedback" id="fb1"></div>
+        </div>
+
+        <!-- Challenge 2 -->
+        <div class="challenge-card" data-challenge="2" data-answer="B">
+          <div class="challenge-label">Challenge 2 · Animal Actions</div>
+          <h3>Identify the verb in the sentence:</h3>
+          <div class="sentence-box">"The dog barks at the stranger."</div>
+          <div class="options">
+            <button class="opt" data-key="A"><span class="letter">A</span>Dog</button>
+            <button class="opt" data-key="B"><span class="letter">B</span>Barks</button>
+            <button class="opt" data-key="C"><span class="letter">C</span>Stranger</button>
+            <button class="opt" data-key="D"><span class="letter">D</span>The</button>
+          </div>
+          <div class="feedback" id="fb2"></div>
+        </div>
+
+        <!-- Challenge 3 -->
+        <div class="challenge-card" data-challenge="3" data-answer="D">
+          <div class="challenge-label">Challenge 3 · At Home</div>
+          <h3>Which word shows the action?</h3>
+          <div class="sentence-box">"Mother washes the plates."</div>
+          <div class="options">
+            <button class="opt" data-key="A"><span class="letter">A</span>Mother</button>
+            <button class="opt" data-key="B"><span class="letter">B</span>Plates</button>
+            <button class="opt" data-key="C"><span class="letter">C</span>The</button>
+            <button class="opt" data-key="D"><span class="letter">D</span>Washes</button>
+          </div>
+          <div class="feedback" id="fb3"></div>
+        </div>
+
+        <!-- Challenge 4 -->
+        <div class="challenge-card" data-challenge="4" data-answer="C">
+          <div class="challenge-label">Challenge 4 · During Playtime</div>
+          <h3>Find the verb:</h3>
+          <div class="sentence-box">"The children throw their colorful balls."</div>
+          <div class="options">
+            <button class="opt" data-key="A"><span class="letter">A</span>Colorful</button>
+            <button class="opt" data-key="B"><span class="letter">B</span>Children</button>
+            <button class="opt" data-key="C"><span class="letter">C</span>Throw</button>
+            <button class="opt" data-key="D"><span class="letter">D</span>Balls</button>
+          </div>
+          <div class="feedback" id="fb4"></div>
+        </div>
+
+        <!-- Challenge 5 -->
+        <div class="challenge-card" data-challenge="5" data-answer="D">
+          <div class="challenge-label">Challenge 5 · Musical Moments</div>
+          <h3>What is the action word in the sentence?</h3>
+          <div class="sentence-box">"Lisa plays the guitar."</div>
+          <div class="options">
+            <button class="opt" data-key="A"><span class="letter">A</span>Guitar</button>
+            <button class="opt" data-key="B"><span class="letter">B</span>Lisa</button>
+            <button class="opt" data-key="C"><span class="letter">C</span>The</button>
+            <button class="opt" data-key="D"><span class="letter">D</span>Plays</button>
+          </div>
+          <div class="feedback" id="fb5"></div>
+        </div>
+      </div>
+
+      <!-- D. Detective Score Result -->
+      <div class="result-card" id="resultCard">
+        <h3>Your Detective Score</h3>
+        <div class="big-score"><span id="finalScore">0</span> / 5</div>
+        <p id="resultMsg"></p>
+        <div class="badge-row" id="badgeRow"></div>
+        <div class="btn-row">
+          <button class="btn btn-orange" id="playAgainBtn">Play Again</button>
+          <a class="btn btn-blue" href="lessons.html">Return to Lessons <span class="arrow"></span></a>
+        </div>
+      </div>
+
+      <div class="btn-row" id="resetRow">
+        <button class="btn btn-purple" id="resetBtn" disabled>Reset Game</button>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <div class="foot">
+      <span class="star" style="width:2em;height:2em" aria-hidden="true"></span>
+      <span>Be Curious</span><span class="star" aria-hidden="true"></span>
+      <span>Keep Learning</span><span class="star" aria-hidden="true"></span>
+      <span>You Can Do It!</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const explanations = {
+    1: {correct: "Draws is the verb because it tells us what the girl is doing.",
+        wrong: "Not quite! The verb is the action word — look for what the girl is doing."},
+    2: {correct: "Barks is the action word performed by the dog.",
+        wrong: "Try again! Find the word that tells what the dog does."},
+    3: {correct: "Washes describes what Mother is doing.",
+        wrong: "Look closely — which word tells what Mother is doing?"},
+    4: {correct: "Throw is the verb because it tells the action of the children.",
+        wrong: "Not that one! Find the word that shows what the children do."},
+    5: {correct: "Plays tells us what Lisa is doing.",
+        wrong: "Keep looking! Which word tells what Lisa is doing?"}
+  };
+
+  const cards = document.querySelectorAll('.challenge-card');
+  const scoreNum = document.getElementById('scoreNum');
+  const resultCard = document.getElementById('resultCard');
+  const finalScore = document.getElementById('finalScore');
+  const resultMsg = document.getElementById('resultMsg');
+  const badgeRow = document.getElementById('badgeRow');
+  const resetBtn = document.getElementById('resetBtn');
+  const playAgainBtn = document.getElementById('playAgainBtn');
+
+  let score = 0;
+  let answered = 0;
+  const total = cards.length;
+  const answeredMap = {};
+
+  function updateScore(){
+    scoreNum.textContent = score;
+    resetBtn.disabled = answered === 0;
+  }
+
+  function showResult(){
+    resultCard.classList.add('show');
+    finalScore.textContent = score;
+    badgeRow.innerHTML = '';
+    if(score === 5){
+      resultMsg.textContent = "Amazing! You are an Action Detective!";
+    } else if(score >= 3){
+      resultMsg.textContent = "Great work! You are getting better at finding verbs.";
+    } else {
+      resultMsg.textContent = "Keep exploring! Review the lesson and try again.";
+    }
+    resultCard.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  function handleAnswer(card, btn){
+    const key = btn.dataset.key;
+    const correct = card.dataset.answer;
+    const id = card.dataset.challenge;
+    if(answeredMap[id]) return;
+    answeredMap[id] = true;
+    answered++;
+
+    const opts = card.querySelectorAll('.opt');
+    opts.forEach(o => o.disabled = true);
+
+    const fb = card.querySelector('.feedback');
+    if(key === correct){
+      btn.classList.add('correct');
+      score++;
+      fb.className = 'feedback show ok';
+      fb.innerHTML = '<strong>Correct!</strong> ' + explanations[id].correct;
+    } else {
+      btn.classList.add('wrong');
+      opts.forEach(o => { if(o.dataset.key === correct) o.classList.add('correct'); });
+      fb.className = 'feedback show no';
+      fb.innerHTML = '<strong>Not quite.</strong> ' + explanations[id].correct;
+    }
+    updateScore();
+
+    if(answered === total){
+      setTimeout(showResult, 400);
+    }
+  }
+
+  cards.forEach(card => {
+    const opts = card.querySelectorAll('.opt');
+    opts.forEach(btn => {
+      btn.addEventListener('click', () => handleAnswer(card, btn));
+    });
+  });
+
+  function resetGame(){
+    score = 0; answered = 0;
+    Object.keys(answeredMap).forEach(k => delete answeredMap[k]);
+    cards.forEach(card => {
+      card.querySelectorAll('.opt').forEach(o => {
+        o.disabled = false;
+        o.classList.remove('correct','wrong');
+      });
+      const fb = card.querySelector('.feedback');
+      fb.className = 'feedback';
+      fb.innerHTML = '';
+    });
+    resultCard.classList.remove('show');
+    updateScore();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  resetBtn.addEventListener('click', resetGame);
+  playAgainBtn.addEventListener('click', resetGame);
+  updateScore();
+})();
+</script>
+</body>
+</html>

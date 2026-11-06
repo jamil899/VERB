@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quizzes · The Action Word Adventure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1d3a8a; --pink:#f0408f; --blue:#2f9be6; --yellow:#f6b81a; --purple:#7b4bc8; --green:#4cb04a; --orange:#f58a1f;
+  --wood:#b98650; --wood-dark:#7a4a22; --paper:#fff8e6; --cream:#fffbf2;
+  --pink-t:#fbd6e6; --blue-t:#cfe8fa; --yellow-t:#fcefb8; --purple-t:#ddd2f6; --green-t:#d3efc4;
+  --r:32px;
+  --lift:0 6px 0 rgba(29,58,138,.14);
+  --rainbow:linear-gradient(90deg,var(--pink),var(--orange),var(--green),var(--blue),var(--purple));
+  --font-head:"Baloo 2","Trebuchet MS",sans-serif;
+  --font-hand:"Patrick Hand","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme:dark){ :root{ color-scheme:light; } }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;height:100%}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{font-family:var(--font-hand);font-size:1.15rem;line-height:1.4;color:var(--navy);background:var(--cream);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:4px solid var(--navy);outline-offset:3px}
+h1,h2,h3{font-family:var(--font-head);line-height:1.05}
+.rainbow{background:var(--rainbow);-webkit-background-clip:text;background-clip:text;color:transparent}
+.star{display:inline-block;width:1em;height:1em;background:var(--yellow);clip-path:polygon(50% 0,62% 35%,98% 38%,70% 60%,80% 96%,50% 75%,20% 96%,30% 60%,2% 38%,38% 35%)}
+.arrow{display:inline-block;width:.9em;height:.9em;margin-left:.35em;vertical-align:-.1em;background:currentColor;clip-path:polygon(0 40%,60% 40%,60% 10%,100% 50%,60% 90%,60% 60%,0 60%)}
+.scene{position:relative;background:linear-gradient(#bfe6fb 0,#dff3d6 700px,var(--cream) 1100px);min-height:100vh}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+.sign{background:#f6dfae;border:5px solid var(--wood);border-radius:12px;box-shadow:0 5px 0 rgba(122,74,34,.35)}
+.ph{display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;font-family:var(--font-head);font-weight:700;font-size:.95rem;line-height:1.15;color:var(--navy);background:rgba(255,255,255,.55);border:3px dashed var(--navy);border-radius:var(--r)}
+.ph small{display:block;font-family:var(--font-hand);font-weight:400;font-size:.85rem;opacity:.75}
+.pic{display:block;max-width:100%;object-fit:contain;object-position:bottom}
+.ph-compass{position:absolute;right:-30px;bottom:-24px;width:64px;height:64px;border-radius:0}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;padding-top:24px}
+.logo{position:relative;padding:14px 22px;text-align:center;transform:rotate(-2deg);max-width:360px}
+.logo h1{font-size:1.9rem}
+.logo h1 span{display:block;font-size:2.5rem}
+.logo p{font-size:.95rem;margin-top:4px}
+nav{display:flex;gap:8px;flex-wrap:wrap;padding:8px 10px;background:rgba(255,255,255,.6);border-radius:999px}
+nav a{padding:6px 16px;border-radius:999px;font-family:var(--font-head);font-weight:700;transition:transform .15s}
+nav a:hover{transform:translateY(-2px)}
+nav .home{background:var(--pink);color:#fff}
+nav .l{background:var(--yellow-t)} nav .g{background:var(--purple-t)} nav .q{background:var(--green-t)} nav .a{background:var(--pink-t)}
+.cta{display:inline-block;margin-top:22px;padding:12px 30px;font-family:var(--font-head);font-weight:700;font-size:1.35rem;color:#fff3dc;background:linear-gradient(var(--wood),#9c6a38);border:4px solid var(--wood-dark);border-radius:12px;box-shadow:0 6px 0 var(--wood-dark);transform:rotate(-2deg);transition:transform .15s}
+.cta:hover{transform:rotate(-2deg) translateY(-3px)}
+.band{padding:36px 0 50px}
+.title{display:inline-block;padding:6px 40px;font-size:2rem;font-weight:800;background:#fbe9a9;border-radius:40px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px;margin-top:30px}
+.card{display:flex;flex-direction:column;align-items:center;padding:22px 18px 24px;border-radius:var(--r);box-shadow:var(--lift);transition:transform .2s}
+.card:hover{transform:translateY(-6px)}
+.card .icon{width:130px;height:110px;object-fit:contain}
+.card h3{font-size:1.8rem;margin-top:6px}
+.card p{font-size:1.05rem;margin:6px 0 16px;flex:1}
+.go{display:inline-flex;align-items:center;justify-content:center;min-width:120px;padding:6px 24px;font-family:var(--font-head);font-weight:700;font-size:1.15rem;color:#fff;border-radius:999px}
+.c1{background:var(--pink-t)} .c1 .go{background:var(--pink)}
+.c2{background:var(--blue-t)} .c2 .go{background:var(--blue)}
+.c3{background:var(--yellow-t)} .c3 .go{background:var(--yellow)}
+.c4{background:var(--purple-t)} .c4 .go{background:var(--purple)}
+.together{display:grid;grid-template-columns:220px 1fr 200px;gap:24px;align-items:center;padding:30px 34px;border-radius:var(--r);background:var(--paper);border:5px solid var(--wood);box-shadow:0 5px 0 rgba(122,74,34,.35)}
+.together h2{font-size:2.3rem}
+.together p{font-size:1.25rem;margin-top:8px;max-width:38ch}
+.books{display:flex;flex-direction:column;gap:5px}
+.books span{font-family:var(--font-head);font-weight:800;color:#fff;padding:6px 14px;border-radius:6px 12px 12px 6px;font-size:1.05rem;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.books span:nth-child(1){background:var(--pink);margin-left:6px}
+.books span:nth-child(2){background:var(--orange)}
+.books span:nth-child(3){background:var(--blue);margin-left:10px}
+.books span:nth-child(4){background:var(--green)}
+footer{position:relative;margin-top:70px;padding:44px 24px 36px;background:var(--purple);color:#fff;text-align:center}
+footer::before{content:"";position:absolute;left:0;right:0;top:-39px;height:40px;background:var(--purple);clip-path:ellipse(60% 100% at 50% 100%)}
+.foot{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap;font-family:var(--font-head);font-weight:700;font-size:1.4rem}
+@media(max-width:860px){
+  .together{grid-template-columns:1fr;text-align:center}
+  .together p{margin-inline:auto}
+  .books{max-width:200px;margin:0 auto}
+}
+@media(max-width:560px){
+  .wrap{padding:0 16px}
+  .title{font-size:1.5rem;padding:6px 24px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ── quiz-specific ── */
+.quiz-hero{text-align:center;padding:28px 0 6px}
+.quiz-hero h2{font-size:2.4rem;color:var(--navy)}
+.quiz-hero p{font-size:1.25rem;margin-top:4px;color:var(--navy);opacity:.9}
+.quiz-hero .badge{display:inline-block;margin-top:12px;padding:6px 22px;background:var(--green-t);border:3px solid var(--green);border-radius:999px;font-family:var(--font-head);font-weight:800;font-size:1.05rem;transform:rotate(-1.5deg)}
+.intro-card{background:var(--paper);border:4px solid var(--wood);border-radius:var(--r);box-shadow:var(--lift);padding:26px 30px;margin:22px 0}
+.intro-card h3{font-size:1.7rem;margin-bottom:8px;display:inline-block;border-bottom:3px dashed var(--wood);padding-bottom:4px}
+.intro-card p,.intro-card li{font-size:1.1rem}
+.intro-card ul{padding-left:26px;margin-top:8px}
+.intro-card li{margin:5px 0}
+.progress-strip{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin:6px 0 18px}
+.progress-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 22px;background:var(--purple);color:#fff;border-radius:999px;font-family:var(--font-head);font-weight:800;font-size:1.1rem;box-shadow:0 4px 0 rgba(0,0,0,.18)}
+.progress-pill .num{background:#fff;color:var(--purple);border-radius:50%;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem}
+.progress-bar{width:100%;max-width:520px;height:16px;background:#e6dcc0;border-radius:999px;overflow:hidden;border:3px solid var(--wood)}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:999px;transition:width .3s ease}
+.q-card{background:var(--paper);border:4px solid var(--wood);border-radius:var(--r);box-shadow:var(--lift);padding:26px 30px;margin:22px 0}
+.q-card .q-num{font-family:var(--font-head);font-weight:800;font-size:.95rem;color:var(--orange);letter-spacing:.5px;text-transform:uppercase}
+.q-card h3{font-size:1.35rem;margin:6px 0 14px}
+.q-card .sentence-box{background:#fffdf0;border-left:6px solid var(--yellow);padding:12px 18px;margin:0 0 16px;border-radius:0 10px 10px 0;font-size:1.2rem;font-style:italic;color:var(--navy)}
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.opt{display:flex;align-items:center;gap:10px;padding:12px 18px;background:#fff;border:3px solid #e0d2b0;border-radius:14px;font-family:var(--font-head);font-weight:700;font-size:1.05rem;color:var(--navy);cursor:pointer;transition:transform .12s,border-color .12s,background .12s;text-align:left}
+.opt:hover{transform:translateY(-3px);border-color:var(--blue);background:var(--blue-t)}
+.opt .letter{background:var(--blue-t);color:var(--navy);border-radius:50%;min-width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:1rem}
+.opt.selected{background:var(--blue-t);border-color:var(--blue)}
+.opt.selected .letter{background:var(--blue);color:#fff}
+.opt.correct{background:var(--green-t);border-color:var(--green)}
+.opt.correct .letter{background:var(--green);color:#fff}
+.opt.wrong{background:var(--pink-t);border-color:var(--pink)}
+.opt.wrong .letter{background:var(--pink);color:#fff}
+.opt:disabled{cursor:default;opacity:.95}
+.opt:disabled:hover{transform:none}
+.explain{margin-top:12px;padding:10px 16px;border-radius:12px;font-size:1rem;display:none;background:#fffdf6;border:2px dashed var(--wood)}
+.explain.show{display:block}
+.explain strong{font-family:var(--font-head)}
+.btn-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:30px 0 10px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:12px 30px;font-family:var(--font-head);font-weight:700;font-size:1.2rem;color:#fff;border:none;border-radius:999px;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-3px)}
+.btn-pink{background:var(--pink)} .btn-blue{background:var(--blue)} .btn-green{background:var(--green)} .btn-purple{background:var(--purple)} .btn-orange{background:var(--orange)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.result-card{background:var(--paper);border:5px solid var(--green);border-radius:var(--r);box-shadow:var(--lift);padding:34px 30px;margin:26px 0;text-align:center;display:none}
+.result-card.show{display:block;animation:pop .3s ease}
+.result-card h3{font-size:2.2rem;color:var(--green)}
+.result-card .big-score{font-family:var(--font-head);font-weight:800;font-size:3.4rem;color:var(--navy);margin:6px 0}
+.result-card p{font-size:1.15rem;margin-top:6px}
+.result-stats{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:14px}
+.stat{background:var(--green-t);border:3px solid var(--green);border-radius:14px;padding:10px 20px;font-family:var(--font-head);font-weight:800;font-size:1.1rem}
+.stat.bad{background:var(--pink-t);border-color:var(--pink)}
+.badge-row{display:flex;justify-content:center;gap:10px;margin-top:14px;font-size:2rem}
+@keyframes pop{0%{transform:scale(.96);opacity:0}100%{transform:scale(1);opacity:1}}
+@media(max-width:560px){.q-card,.intro-card{padding:20px 16px}.quiz-hero h2{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<div class="scene">
+  <div class="wrap">
+    <div class="top">
+      <a class="logo sign" href="index.html" aria-label="The Action Word Adventure home">
+        <h1>The Action Word <span class="rainbow">Adventure</span></h1>
+        <p>Discover actions, build sentences, and become a Verb Explorer!</p>
+        <img class="pic ph-compass" src="images/compass.png" alt="">
+      </a>
+      <nav aria-label="Main navigation">
+        <a class="home" href="index.html">Home</a>
+        <a class="l" href="lessons.html">Lessons</a>
+        <a class="g" href="games.html">Games</a>
+        <a class="q" href="quizzes.html">Quizzes</a>
+        <a class="a" href="activities.html">Activities</a>
+      </nav>
+    </div>
+
+    <main>
+      <div class="quiz-hero">
+        <h2>The Great Verb Check!</h2>
+        <p>How Well Do You Know Your Verbs?</p>
+        <div class="badge">10 questions · 1 point each</div>
+      </div>
+
+      <!-- A. Introduction -->
+      <div class="intro-card">
+        <h3>A. Ready for the Check?</h3>
+        <p>It's time to check what you have learned! This short quiz will help you practice recognizing verbs and identifying action words in different sentences.</p>
+        <p style="margin-top:8px">Read each item carefully and choose the best answer.</p>
+      </div>
+
+      <!-- B. Instructions -->
+      <div class="intro-card">
+        <h3>B. Instructions</h3>
+        <ul>
+          <li>Read each question before answering.</li>
+          <li>Select only one answer.</li>
+          <li>Each correct answer is worth one point.</li>
+          <li>Answer all ten questions.</li>
+          <li>Review your results after finishing.</li>
+        </ul>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-strip" aria-live="polite">
+        <span class="progress-pill">Answered <span class="num" id="answeredNum">0</span> / 10</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <!-- C. Quiz Questions -->
+      <form id="quizForm">
+        <div id="quizContainer"></div>
+      </form>
+
+      <div class="btn-row" id="quizActions">
+        <button class="btn btn-green" id="submitBtn" disabled>Submit Quiz</button>
+        <button class="btn btn-orange" id="reviewBtn" disabled>Review Answers</button>
+        <button class="btn btn-pink" id="tryAgainBtn" disabled>Try Again</button>
+      </div>
+
+      <!-- D. Quiz Results -->
+      <div class="result-card" id="resultCard">
+        <h3>Quiz Results</h3>
+        <div class="big-score"><span id="finalScore">0</span> / 10</div>
+        <div class="result-stats">
+          <div class="stat" id="correctStat">0 correct</div>
+          <div class="stat bad" id="wrongStat">0 incorrect</div>
+        </div>
+        <p id="resultMsg"></p>
+        <div class="badge-row" id="badgeRow"></div>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <div class="foot">
+      <span class="star" style="width:2em;height:2em" aria-hidden="true"></span>
+      <span>Be Curious</span><span class="star" aria-hidden="true"></span>
+      <span>Keep Learning</span><span class="star" aria-hidden="true"></span>
+      <span>You Can Do It!</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const questions = [
+    {
+      q: "What do verbs tell us?",
+      options: ["The color of something.", "What someone or something does.", "The name of a place.", "The size of an object."],
+      answer: 1,
+      explain: "Verbs are action words — they tell us what someone or something does."
+    },
+    {
+      q: "Which word is an action verb?",
+      options: ["Table", "Yellow", "Swim", "School"],
+      answer: 2,
+      explain: "Swim is an action verb. Table, Yellow, and School are not actions."
+    },
+    {
+      q: "Identify the verb in the sentence:",
+      sentence: '"The bird flies in the sky."',
+      options: ["Bird", "Sky", "Flies", "The"],
+      answer: 2,
+      explain: "Flies is the verb — it tells us what the bird does."
+    },
+    {
+      q: "Which sentence contains a verb?",
+      options: ["The beautiful garden.", "A red ball.", "The boy throws the ball.", "A small puppy."],
+      answer: 2,
+      explain: "\"The boy throws the ball\" contains the verb throws. The others are phrases without a verb."
+    },
+    {
+      q: "What is the action word in this sentence?",
+      sentence: '"The students read their books."',
+      options: ["Students", "Read", "Books", "Their"],
+      answer: 1,
+      explain: "Read is the verb — it tells us what the students do."
+    },
+    {
+      q: "Which word describes an action performed by the hands?",
+      options: ["Clap", "Sleep", "Swim", "Run"],
+      answer: 0,
+      explain: "Clap is done with your hands. Sleep, Swim, and Run use other parts of the body."
+    },
+    {
+      q: "Complete the sentence with the correct verb:",
+      sentence: '"The baby ___ peacefully."',
+      options: ["Pillow", "Cries", "Soft", "Blanket"],
+      answer: 1,
+      explain: "Cries is the verb. It tells us what the baby does. Pillow, Soft, and Blanket are not verbs."
+    },
+    {
+      q: "Which sentence uses an action word correctly?",
+      options: ["The girl singing a song.", "The girl sings a song.", "The girl beautiful song.", "The girl song sings."],
+      answer: 1,
+      explain: "\"The girl sings a song\" is correct. Sings is the verb used properly in the sentence."
+    },
+    {
+      q: "What is the verb in this sentence?",
+      sentence: '"Father washes the car every Sunday."',
+      options: ["Father", "Car", "Sunday", "Washes"],
+      answer: 3,
+      explain: "Washes is the verb — it tells us what Father does."
+    },
+    {
+      q: "Why are verbs important?",
+      options: ["They help describe actions.", "They only name people.", "They replace all words.", "They describe colors only."],
+      answer: 0,
+      explain: "Verbs help describe actions — they are the action words in a sentence."
+    }
+  ];
+
+  const container = document.getElementById('quizContainer');
+  const answeredNum = document.getElementById('answeredNum');
+  const progressFill = document.getElementById('progressFill');
+  const submitBtn = document.getElementById('submitBtn');
+  const reviewBtn = document.getElementById('reviewBtn');
+  const tryAgainBtn = document.getElementById('tryAgainBtn');
+  const resultCard = document.getElementById('resultCard');
+  const finalScore = document.getElementById('finalScore');
+  const correctStat = document.getElementById('correctStat');
+  const wrongStat = document.getElementById('wrongStat');
+  const resultMsg = document.getElementById('resultMsg');
+  const badgeRow = document.getElementById('badgeRow');
+
+  const selections = {};
+  let submitted = false;
+
+  function buildQuiz(){
+    container.innerHTML = '';
+    questions.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.dataset.index = i;
+
+      let html = `<div class="q-num">Question ${i+1} of 10</div>`;
+      html += `<h3>${item.q}</h3>`;
+      if(item.sentence){
+        html += `<div class="sentence-box">${item.sentence}</div>`;
+      }
+      html += `<div class="options">`;
+      item.options.forEach((opt, j) => {
+        const letter = String.fromCharCode(65 + j);
+        html += `<button type="button" class="opt" data-q="${i}" data-opt="${j}"><span class="letter">${letter}</span>${opt}</button>`;
+      });
+      html += `</div>`;
+      html += `<div class="explain" id="explain-${i}"><strong>Explanation:</strong> ${item.explain}</div>`;
+      card.innerHTML = html;
+      container.appendChild(card);
+    });
+
+    container.querySelectorAll('.opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(submitted) return;
+        const q = btn.dataset.q;
+        const opt = btn.dataset.opt;
+        selections[q] = parseInt(opt, 10);
+
+        const card = btn.closest('.q-card');
+        card.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+        btn.classList.add('selected');
+
+        updateProgress();
+      });
+    });
+    updateProgress();
+  }
+
+  function updateProgress(){
+    const count = Object.keys(selections).length;
+    answeredNum.textContent = count;
+    progressFill.style.width = (count / 10 * 100) + '%';
+    submitBtn.disabled = count < 10 || submitted;
+    reviewBtn.disabled = count < 10 || !submitted;
+    tryAgainBtn.disabled = !submitted;
+  }
+
+  function submitQuiz(){
+    if(submitted) return;
+    submitted = true;
+    let score = 0;
+
+    questions.forEach((item, i) => {
+      const card = container.querySelector(`.q-card[data-index="${i}"]`);
+      const chosen = selections[i];
+      const opts = card.querySelectorAll('.opt');
+      opts.forEach(o => o.disabled = true);
+
+      opts.forEach((o, j) => {
+        if(j === item.answer) o.classList.add('correct');
+        if(j === chosen && chosen !== item.answer) o.classList.add('wrong');
+      });
+
+      const explain = document.getElementById(`explain-${i}`);
+      explain.classList.add('show');
+
+      if(chosen === item.answer) score++;
+    });
+
+    finalScore.textContent = score;
+    correctStat.textContent = `${score} correct`;
+    wrongStat.textContent = `${10 - score} incorrect`;
+
+    if(score === 10){
+      resultMsg.textContent = "Perfect score! You are a Verb Master!";
+    } else if(score >= 7){
+      resultMsg.textContent = "Wonderful effort! You have successfully completed the Great Verb Check. Keep practicing your action words!";
+    } else if(score >= 4){
+      resultMsg.textContent = "Good try! Review the lesson and try again — you're getting there!";
+    } else {
+      resultMsg.textContent = "Keep exploring! Review the lesson and try the quiz again. You can do it!";
+    }
+
+    resultCard.classList.add('show');
+    resultCard.scrollIntoView({behavior:'smooth', block:'center'});
+    updateProgress();
+  }
+
+  function reviewAnswers(){
+    container.querySelectorAll('.q-card').forEach(card => {
+      card.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+    // Focus the first question for review
+    const first = container.querySelector('.q-card');
+    if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  function tryAgain(){
+    submitted = false;
+    Object.keys(selections).forEach(k => delete selections[k]);
+    resultCard.classList.remove('show');
+    badgeRow.textContent = '';
+    buildQuiz();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  submitBtn.addEventListener('click', submitQuiz);
+  reviewBtn.addEventListener('click', reviewAnswers);
+  tryAgainBtn.addEventListener('click', tryAgain);
+
+  buildQuiz();
+})();
+</script>
+</body>
+</html>

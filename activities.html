@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Activities · The Action Word Adventure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1d3a8a; --pink:#f0408f; --blue:#2f9be6; --yellow:#f6b81a; --purple:#7b4bc8; --green:#4cb04a; --orange:#f58a1f;
+  --wood:#b98650; --wood-dark:#7a4a22; --paper:#fff8e6; --cream:#fffbf2;
+  --pink-t:#fbd6e6; --blue-t:#cfe8fa; --yellow-t:#fcefb8; --purple-t:#ddd2f6; --green-t:#d3efc4;
+  --r:32px;
+  --lift:0 6px 0 rgba(29,58,138,.14);
+  --rainbow:linear-gradient(90deg,var(--pink),var(--orange),var(--green),var(--blue),var(--purple));
+  --font-head:"Baloo 2","Trebuchet MS",sans-serif;
+  --font-hand:"Patrick Hand","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme:dark){ :root{ color-scheme:light; } }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;height:100%}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{font-family:var(--font-hand);font-size:1.15rem;line-height:1.4;color:var(--navy);background:var(--cream);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:4px solid var(--navy);outline-offset:3px}
+h1,h2,h3{font-family:var(--font-head);line-height:1.05}
+.rainbow{background:var(--rainbow);-webkit-background-clip:text;background-clip:text;color:transparent}
+.star{display:inline-block;width:1em;height:1em;background:var(--yellow);clip-path:polygon(50% 0,62% 35%,98% 38%,70% 60%,80% 96%,50% 75%,20% 96%,30% 60%,2% 38%,38% 35%)}
+.arrow{display:inline-block;width:.9em;height:.9em;margin-left:.35em;vertical-align:-.1em;background:currentColor;clip-path:polygon(0 40%,60% 40%,60% 10%,100% 50%,60% 90%,60% 60%,0 60%)}
+.scene{position:relative;background:linear-gradient(#bfe6fb 0,#dff3d6 700px,var(--cream) 1100px);min-height:100vh}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+.sign{background:#f6dfae;border:5px solid var(--wood);border-radius:12px;box-shadow:0 5px 0 rgba(122,74,34,.35)}
+.ph{display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;font-family:var(--font-head);font-weight:700;font-size:.95rem;line-height:1.15;color:var(--navy);background:rgba(255,255,255,.55);border:3px dashed var(--navy);border-radius:var(--r)}
+.ph small{display:block;font-family:var(--font-hand);font-weight:400;font-size:.85rem;opacity:.75}
+.pic{display:block;max-width:100%;object-fit:contain;object-position:bottom}
+.ph-compass{position:absolute;right:-30px;bottom:-24px;width:64px;height:64px;border-radius:0}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;padding-top:24px}
+.logo{position:relative;padding:14px 22px;text-align:center;transform:rotate(-2deg);max-width:360px}
+.logo h1{font-size:1.9rem}
+.logo h1 span{display:block;font-size:2.5rem}
+.logo p{font-size:.95rem;margin-top:4px}
+nav{display:flex;gap:8px;flex-wrap:wrap;padding:8px 10px;background:rgba(255,255,255,.6);border-radius:999px}
+nav a{padding:6px 16px;border-radius:999px;font-family:var(--font-head);font-weight:700;transition:transform .15s}
+nav a:hover{transform:translateY(-2px)}
+nav .home{background:var(--pink);color:#fff}
+nav .l{background:var(--yellow-t)} nav .g{background:var(--purple-t)} nav .q{background:var(--green-t)} nav .a{background:var(--pink-t)}
+.cta{display:inline-block;margin-top:22px;padding:12px 30px;font-family:var(--font-head);font-weight:700;font-size:1.35rem;color:#fff3dc;background:linear-gradient(var(--wood),#9c6a38);border:4px solid var(--wood-dark);border-radius:12px;box-shadow:0 6px 0 var(--wood-dark);transform:rotate(-2deg);transition:transform .15s}
+.cta:hover{transform:rotate(-2deg) translateY(-3px)}
+.band{padding:36px 0 50px}
+.title{display:inline-block;padding:6px 40px;font-size:2rem;font-weight:800;background:#fbe9a9;border-radius:40px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px;margin-top:30px}
+.card{display:flex;flex-direction:column;align-items:center;padding:22px 18px 24px;border-radius:var(--r);box-shadow:var(--lift);transition:transform .2s}
+.card:hover{transform:translateY(-6px)}
+.card .icon{width:130px;height:110px;object-fit:contain}
+.card h3{font-size:1.8rem;margin-top:6px}
+.card p{font-size:1.05rem;margin:6px 0 16px;flex:1}
+.go{display:inline-flex;align-items:center;justify-content:center;min-width:120px;padding:6px 24px;font-family:var(--font-head);font-weight:700;font-size:1.15rem;color:#fff;border-radius:999px}
+.c1{background:var(--pink-t)} .c1 .go{background:var(--pink)}
+.c2{background:var(--blue-t)} .c2 .go{background:var(--blue)}
+.c3{background:var(--yellow-t)} .c3 .go{background:var(--yellow)}
+.c4{background:var(--purple-t)} .c4 .go{background:var(--purple)}
+.together{display:grid;grid-template-columns:220px 1fr 200px;gap:24px;align-items:center;padding:30px 34px;border-radius:var(--r);background:var(--paper);border:5px solid var(--wood);box-shadow:0 5px 0 rgba(122,74,34,.35)}
+.together h2{font-size:2.3rem}
+.together p{font-size:1.25rem;margin-top:8px;max-width:38ch}
+.books{display:flex;flex-direction:column;gap:5px}
+.books span{font-family:var(--font-head);font-weight:800;color:#fff;padding:6px 14px;border-radius:6px 12px 12px 6px;font-size:1.05rem;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.books span:nth-child(1){background:var(--pink);margin-left:6px}
+.books span:nth-child(2){background:var(--orange)}
+.books span:nth-child(3){background:var(--blue);margin-left:10px}
+.books span:nth-child(4){background:var(--green)}
+footer{position:relative;margin-top:70px;padding:44px 24px 36px;background:var(--purple);color:#fff;text-align:center}
+footer::before{content:"";position:absolute;left:0;right:0;top:-39px;height:40px;background:var(--purple);clip-path:ellipse(60% 100% at 50% 100%)}
+.foot{display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap;font-family:var(--font-head);font-weight:700;font-size:1.4rem}
+@media(max-width:860px){
+  .together{grid-template-columns:1fr;text-align:center}
+  .together p{margin-inline:auto}
+  .books{max-width:200px;margin:0 auto}
+}
+@media(max-width:560px){
+  .wrap{padding:0 16px}
+  .title{font-size:1.5rem;padding:6px 24px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ── activities-specific ── */
+.act-hero{text-align:center;padding:28px 0 6px}
+.act-hero h2{font-size:2.4rem;color:var(--navy)}
+.act-hero p{font-size:1.25rem;margin-top:4px;color:var(--navy);opacity:.9}
+.act-hero .badge{display:inline-block;margin-top:12px;padding:6px 22px;background:var(--pink-t);border:3px solid var(--pink);border-radius:999px;font-family:var(--font-head);font-weight:800;font-size:1.05rem;transform:rotate(-1.5deg)}
+.act-card{background:var(--paper);border:4px solid var(--wood);border-radius:var(--r);box-shadow:var(--lift);padding:26px 30px;margin:22px 0}
+.act-card h3{font-size:1.7rem;margin-bottom:8px;display:inline-block;border-bottom:3px dashed var(--wood);padding-bottom:4px}
+.act-card h4{font-family:var(--font-head);font-size:1.25rem;color:var(--purple);margin:16px 0 6px}
+.act-card p,.act-card li{font-size:1.1rem}
+.act-card ol,.act-card ul{padding-left:26px;margin-top:8px}
+.act-card li{margin:6px 0}
+.observe-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:1.05rem}
+.observe-table th{background:var(--wood);color:#fff;padding:10px 14px;text-align:left;font-family:var(--font-head);font-size:1.05rem;border-radius:8px 8px 0 0}
+.observe-table td{padding:9px 14px;border-bottom:2px solid #e8d9b8;background:#fffdf6}
+.observe-table tr:last-child td{border-bottom:none}
+.observe-table td:last-child{font-weight:700;color:var(--pink)}
+.journal-section{background:var(--paper);border:5px solid var(--pink);border-radius:var(--r);box-shadow:var(--lift);padding:30px 34px;margin:26px 0}
+.journal-section h3{font-size:2rem;color:var(--pink);margin-bottom:6px}
+.journal-section .subtitle{font-size:1.05rem;opacity:.8;margin-bottom:18px}
+.journal-q{margin:22px 0}
+.journal-q label{display:block;font-family:var(--font-head);font-weight:800;font-size:1.15rem;color:var(--navy);margin-bottom:8px}
+.journal-q .hint{font-size:.95rem;font-weight:400;color:var(--navy);opacity:.7;display:block;margin-top:2px}
+.verb-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.verb-inputs .input-group{display:flex;align-items:center;gap:8px}
+.verb-inputs .num-badge{background:var(--pink);color:#fff;border-radius:50%;min-width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:1rem;flex-shrink:0}
+input[type="text"],textarea{width:100%;padding:10px 14px;font-family:var(--font-hand);font-size:1.1rem;color:var(--navy);background:#fff;border:3px solid #e0d2b0;border-radius:12px;transition:border-color .15s,box-shadow .15s}
+input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-t)}
+textarea{resize:vertical;min-height:80px}
+.sentence-grid{display:grid;gap:14px}
+.sentence-grid .s-row{display:flex;align-items:flex-start;gap:10px}
+.sentence-grid .s-num{background:var(--purple);color:#fff;border-radius:50%;min-width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:1rem;flex-shrink:0;margin-top:4px}
+.btn-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:30px 0 10px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:12px 30px;font-family:var(--font-head);font-weight:700;font-size:1.2rem;color:#fff;border:none;border-radius:999px;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-3px)}
+.btn-pink{background:var(--pink)} .btn-blue{background:var(--blue)} .btn-green{background:var(--green)} .btn-purple{background:var(--purple)} .btn-orange{background:var(--orange)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.completion{background:var(--green-t);border:5px solid var(--green);border-radius:var(--r);padding:34px 30px;margin:26px 0;text-align:center;display:none}
+.completion.show{display:block;animation:pop .3s ease}
+.completion h3{font-size:2.2rem;color:var(--green)}
+.completion p{font-size:1.2rem;margin-top:8px}
+.completion .badge-row{font-size:2.4rem;margin-top:12px}
+@keyframes pop{0%{transform:scale(.96);opacity:0}100%{transform:scale(1);opacity:1}}
+
+/* ── receipt ── */
+.receipt-wrap{display:none;margin:30px 0}
+.receipt-wrap.show{display:block;animation:pop .35s ease}
+.receipt{
+  position:relative;
+  background:#fffdf4;
+  border:3px solid var(--wood);
+  border-radius:16px 16px 0 0;
+  max-width:720px;
+  margin:0 auto;
+  padding:34px 34px 44px;
+  box-shadow:0 12px 30px rgba(29,58,138,.15);
+  font-family:var(--font-hand);
+  color:var(--navy);
+}
+.receipt::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:-16px;
+  height:16px;
+  background:
+    radial-gradient(circle at 8px 0, transparent 8px, #fffdf4 8.5px) 0 0/16px 16px repeat-x;
+  filter:drop-shadow(0 2px 0 var(--wood));
+}
+.receipt-header{text-align:center;border-bottom:3px dashed var(--wood);padding-bottom:16px;margin-bottom:20px}
+.receipt-header .receipt-logo{font-family:var(--font-head);font-weight:800;font-size:1.6rem;letter-spacing:.5px;line-height:1.1}
+.receipt-header .receipt-logo span{display:block;font-size:2rem}
+.receipt-header .receipt-sub{font-size:.95rem;opacity:.75;margin-top:6px}
+.receipt-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--font-head);font-size:.9rem;text-transform:uppercase;letter-spacing:.5px;opacity:.8;margin:14px 0 8px}
+.receipt-meta span{border-bottom:1px dotted var(--wood);padding-bottom:2px}
+.receipt-q{border-bottom:1px dashed #e0d2b0;padding:16px 0}
+.receipt-q:last-of-type{border-bottom:none}
+.receipt-q .rq-label{font-family:var(--font-head);font-weight:800;font-size:1.05rem;color:var(--purple);margin-bottom:6px}
+.receipt-q .rq-answer{font-size:1.1rem;background:#fff;border:2px solid #eadfbe;border-radius:10px;padding:8px 12px;min-height:40px;white-space:pre-wrap;word-wrap:break-word}
+.receipt-q .rq-verbs{display:flex;flex-wrap:wrap;gap:6px}
+.receipt-q .rq-verbs .v-chip{background:var(--pink-t);border:2px solid var(--pink);border-radius:999px;padding:4px 14px;font-family:var(--font-head);font-weight:700;font-size:.95rem;color:var(--pink)}
+.receipt-q .rq-sentences{display:flex;flex-direction:column;gap:6px}
+.receipt-q .rq-sentences .s-line{display:flex;gap:8px;font-size:1.05rem;background:#fff;border:2px solid #eadfbe;border-radius:10px;padding:6px 12px}
+.receipt-q .rq-sentences .s-line b{color:var(--purple);font-family:var(--font-head)}
+.receipt-footer{text-align:center;margin-top:24px;padding-top:16px;border-top:3px dashed var(--wood);font-family:var(--font-head);font-weight:700;font-size:1rem;opacity:.85}
+.receipt-stamp{
+  position:absolute;
+  right:18px;top:18px;
+  width:92px;height:92px;
+  border:4px double var(--green);
+  border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:var(--green);
+  font-family:var(--font-head);
+  font-weight:800;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  transform:rotate(-12deg);
+  opacity:.9;
+  line-height:1.1;
+  text-align:center;
+  pointer-events:none;
+}
+.receipt-stamp span{font-size:1.4rem;line-height:1}
+.receipt-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:36px}
+
+@media(max-width:560px){
+  .act-card,.journal-section{padding:20px 16px}
+  .act-hero h2{font-size:1.8rem}
+  .receipt{padding:26px 18px 38px}
+  .receipt-stamp{width:70px;height:70px;font-size:.6rem;right:10px;top:10px}
+  .receipt-stamp span{font-size:1.1rem}
+  .receipt-header .receipt-logo{font-size:1.3rem}
+  .receipt-header .receipt-logo span{font-size:1.6rem}
+}
+</style>
+</head>
+<body>
+<div class="scene">
+  <div class="wrap">
+    <div class="top">
+      <a class="logo sign" href="index.html" aria-label="The Action Word Adventure home">
+        <h1>The Action Word <span class="rainbow">Adventure</span></h1>
+        <p>Discover actions, build sentences, and become a Verb Explorer!</p>
+        <img class="pic ph-compass" src="images/compass.png" alt="">
+      </a>
+      <nav aria-label="Main navigation">
+        <a class="home" href="index.html">Home</a>
+        <a class="l" href="lessons.html">Lessons</a>
+        <a class="g" href="games.html">Games</a>
+        <a class="q" href="quizzes.html">Quizzes</a>
+        <a class="a" href="activities.html">Activities</a>
+      </nav>
+    </div>
+
+    <main>
+      <div class="act-hero">
+        <h2>My Everyday Action Journal</h2>
+        <p>Show What You Can Do!</p>
+        <div class="badge">Mission: Become an Action Explorer!</div>
+      </div>
+
+      <!-- A. Introduction -->
+      <div class="act-card">
+        <h3>A. Your Turn to Explore!</h3>
+        <p>Now that you know how to recognize verbs, it's your turn to use them!</p>
+        <p style="margin-top:8px">In this activity, you will observe your surroundings, identify actions, and write your own sentences. You will become an <strong>Action Explorer</strong> by discovering verbs in your daily routine.</p>
+      </div>
+
+      <!-- B. Learning Objectives -->
+      <div class="act-card">
+        <h3>B. Learning Objectives</h3>
+        <p>After completing the activity, learners should be able to:</p>
+        <ul>
+          <li>Recognize action words in their surroundings.</li>
+          <li>Identify verbs through pictures and actual movements.</li>
+          <li>Construct simple sentences using verbs.</li>
+          <li>Share examples of actions performed every day.</li>
+        </ul>
+      </div>
+
+      <!-- C. Your Mission -->
+      <div class="act-card">
+        <h3>C. Your Mission: Become an Action Explorer!</h3>
+        <h4>Instructions:</h4>
+        <ol>
+          <li>Observe the activities happening around your home or classroom.</li>
+          <li>Identify five different actions performed by people or animals.</li>
+          <li>Write the correct verb for each action.</li>
+          <li>Create a sentence using every verb you identified.</li>
+          <li>Share your completed work with your teacher or classmates.</li>
+        </ol>
+
+        <h4>Example:</h4>
+        <table class="observe-table">
+          <thead><tr><th>What I Observed</th><th>Verb</th></tr></thead>
+          <tbody>
+            <tr><td>A person reading a book</td><td>Read</td></tr>
+            <tr><td>A child moving quickly</td><td>Run</td></tr>
+            <tr><td>A mother preparing food</td><td>Cook</td></tr>
+            <tr><td>A dog making a sound</td><td>Bark</td></tr>
+            <tr><td>A girl making a picture</td><td>Draw</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- D. My Action Journal (interactive form) -->
+      <div class="journal-section" id="journalSection">
+        <h3>📓 D. My Action Journal</h3>
+        <p class="subtitle">Fill in your journal below. Answer all questions, then submit!</p>
+
+        <form id="journalForm">
+          <!-- Q1: five verbs -->
+          <div class="journal-q">
+            <label>1. Write five verbs that you discovered today.<span class="hint">Type one verb in each box.</span></label>
+            <div class="verb-inputs">
+              <div class="input-group"><span class="num-badge">1</span><input type="text" id="verb1" placeholder="e.g. jump" autocomplete="off"></div>
+              <div class="input-group"><span class="num-badge">2</span><input type="text" id="verb2" placeholder="e.g. sing" autocomplete="off"></div>
+              <div class="input-group"><span class="num-badge">3</span><input type="text" id="verb3" placeholder="e.g. write" autocomplete="off"></div>
+              <div class="input-group"><span class="num-badge">4</span><input type="text" id="verb4" placeholder="e.g. climb" autocomplete="off"></div>
+              <div class="input-group"><span class="num-badge">5</span><input type="text" id="verb5" placeholder="e.g. smile" autocomplete="off"></div>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="journal-q">
+            <label for="enjoy">2. Which action did you enjoy observing the most? Why?</label>
+            <textarea id="enjoy" placeholder="I enjoyed observing... because..."></textarea>
+          </div>
+
+          <!-- Q3: three sentences -->
+          <div class="journal-q">
+            <label>3. Create three sentences using different action words.</label>
+            <div class="sentence-grid">
+              <div class="s-row"><span class="s-num">1</span><input type="text" id="sent1" placeholder="Write your first sentence..." autocomplete="off"></div>
+              <div class="s-row"><span class="s-num">2</span><input type="text" id="sent2" placeholder="Write your second sentence..." autocomplete="off"></div>
+              <div class="s-row"><span class="s-num">3</span><input type="text" id="sent3" placeholder="Write your third sentence..." autocomplete="off"></div>
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="journal-q">
+            <label for="help">4. How do verbs help you describe your everyday activities?</label>
+            <textarea id="help" placeholder="Verbs help me..."></textarea>
+          </div>
+        </form>
+
+        <div class="btn-row" id="journalActions">
+          <button class="btn btn-green" id="submitJournal">Submit My Journal</button>
+          <button class="btn btn-orange" id="clearJournal">Clear Journal</button>
+        </div>
+      </div>
+
+      <!-- RECEIPT (appears after submit) -->
+      <div class="receipt-wrap" id="receiptWrap">
+        <div class="receipt" id="receipt">
+          <div class="receipt-stamp" aria-hidden="true"><span>✔</span>Action<br>Explorer</div>
+          <div class="receipt-header">
+            <div class="receipt-logo">THE ACTION WORD <span class="rainbow">ADVENTURE</span></div>
+            <div class="receipt-sub">My Everyday Action Journal · Official Receipt</div>
+          </div>
+          <div class="receipt-meta">
+            <span id="receiptName">Explorer</span>
+            <span id="receiptDate"></span>
+            <span id="receiptId"></span>
+          </div>
+          <div id="receiptBody"></div>
+          <div class="receipt-footer">Keep exploring — every action has a word!</div>
+        </div>
+        <div class="receipt-actions">
+          <a class="btn btn-blue" href="index.html">Back to Home <span class="arrow"></span></a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <div class="foot">
+      <span class="star" style="width:2em;height:2em" aria-hidden="true"></span>
+      <span>Be Curious</span><span class="star" aria-hidden="true"></span>
+      <span>Keep Learning</span><span class="star" aria-hidden="true"></span>
+      <span>You Can Do It!</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const form = document.getElementById('journalForm');
+  const submitBtn = document.getElementById('submitJournal');
+  const clearBtn = document.getElementById('clearJournal');
+  const journalSection = document.getElementById('journalSection');
+  const receiptWrap = document.getElementById('receiptWrap');
+  const receiptBody = document.getElementById('receiptBody');
+  const receiptDate = document.getElementById('receiptDate');
+  const receiptId = document.getElementById('receiptId');
+  const printBtn = document.getElementById('printReceipt');
+  const editBtn = document.getElementById('editJournal');
+
+  const requiredIds = ['verb1','verb2','verb3','verb4','verb5','enjoy','sent1','sent2','sent3','help'];
+
+  function val(id){ return document.getElementById(id).value.trim(); }
+
+  function isFilled(id){
+    const el = document.getElementById(id);
+    return el && el.value.trim().length > 0;
+  }
+
+  function updateButton(){
+    const allFilled = requiredIds.every(isFilled);
+    submitBtn.disabled = !allFilled;
+  }
+
+  requiredIds.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('input', updateButton);
+  });
+
+  function esc(s){
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function buildReceipt(){
+    const verbs = [val('verb1'), val('verb2'), val('verb3'), val('verb4'), val('verb5')];
+    const sents = [val('sent1'), val('sent2'), val('sent3')];
+
+    let html = '';
+
+    // Q1
+    html += '<div class="receipt-q">';
+    html += '<div class="rq-label">1. Five verbs I discovered today</div>';
+    html += '<div class="rq-verbs">';
+    verbs.forEach((v, i) => {
+      html += `<span class="v-chip">${i+1}. ${esc(v)}</span>`;
+    });
+    html += '</div></div>';
+
+    // Q2
+    html += '<div class="receipt-q">';
+    html += '<div class="rq-label">2. The action I enjoyed observing most &amp; why</div>';
+    html += `<div class="rq-answer">${esc(val('enjoy'))}</div>`;
+    html += '</div>';
+
+    // Q3
+    html += '<div class="receipt-q">';
+    html += '<div class="rq-label">3. My three sentences using action words</div>';
+    html += '<div class="rq-sentences">';
+    sents.forEach((s, i) => {
+      html += `<div class="s-line"><b>${i+1}.</b><span>${esc(s)}</span></div>`;
+    });
+    html += '</div></div>';
+
+    // Q4
+    html += '<div class="receipt-q">';
+    html += '<div class="rq-label">4. How verbs help me describe my everyday activities</div>';
+    html += `<div class="rq-answer">${esc(val('help'))}</div>`;
+    html += '</div>';
+
+    receiptBody.innerHTML = html;
+
+    // meta
+    const now = new Date();
+    receiptDate.textContent = now.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'});
+    const idNum = Math.floor(1000 + Math.random() * 9000);
+    receiptId.textContent = 'No. ' + idNum;
+  }
+
+  submitBtn.addEventListener('click', () => {
+    if(!requiredIds.every(isFilled)) return;
+    buildReceipt();
+    journalSection.style.display = 'none';
+    receiptWrap.classList.add('show');
+    receiptWrap.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  clearBtn.addEventListener('click', () => {
+    form.reset();
+    updateButton();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  editBtn.addEventListener('click', () => {
+    receiptWrap.classList.remove('show');
+    journalSection.style.display = '';
+    journalSection.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  printBtn.addEventListener('click', () => {
+    window.print();
+  });
+
+  updateButton();
+})();
+</script>
+</body>
+</html>
